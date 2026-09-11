@@ -216,3 +216,18 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ==== 本工程：训练产物 / 缓存 / 日志（不要上传）====
+output/
+result/
+logs/
+swanlog/
+data/
+ref/
+*.log
+__pycache__/
+*.pyc
+.venv.broken*
+
+# demo 视频的中间帧（体积大，需要时用 scripts/07_make_clevr_demo.py render 重新生成）
+results/**/demo/frames/

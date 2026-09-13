@@ -1,0 +1,20 @@
+{
+  "n": 300,
+  "stats": {
+    "base": {
+      "accuracy": 0.1333,
+      "format": 0.0,
+      "mean_chars": 29
+    },
+    "RL(GRPO-100)": {
+      "accuracy": 0.9833,
+      "format": 0.0,
+      "mean_chars": 29
+    },
+    "SFT": {
+      "accuracy": 0.9867,
+      "format": 1.0,
+      "mean_chars": 143
+    }
+  }
+}

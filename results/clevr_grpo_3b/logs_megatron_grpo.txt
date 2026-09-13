@@ -1,374 +1,0 @@
-[megatron-grpo] GPUs=4,5,6,7 nproc=4 vllm_server=8000 train_iters=5
-run sh: `/data/ljy23/swift-rl/.venv/bin/python -m torch.distributed.run --nproc_per_node 4 /data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/swift/cli/_megatron/rlhf.py --rlhf_type grpo --model /data/ljy23/swift-rl/.cache/modelscope/models/Qwen--Qwen2.5-VL-3B-Instruct/snapshots/master --dataset AI-ModelScope/clevr_cogen_a_train#2000 --load_from_cache_file true --split_dataset_ratio 0.01 --reward_funcs accuracy format --use_vllm true --vllm_mode server --vllm_server_host 127.0.0.1 --vllm_server_port 8000 --tensor_model_parallel_size 1 --pipeline_model_parallel_size 1 --micro_batch_size 1 --global_batch_size 8 --num_generations 2 --max_length 4096 --max_completion_length 512 --max_pixels 262144 --train_iters 5 --lr 1e-6 --min_lr 1e-7 --lr_warmup_fraction 0.05 --lr_decay_style constant --attention_backend auto --recompute_granularity full --recompute_method uniform --recompute_num_layers 1 --no_gradient_accumulation_fusion --main_grads_dtype bf16 --use_precision_aware_optimizer true --optimizer_cpu_offload true --optimizer_offload_fraction 1.0 --finetune true --freeze_vit true --freeze_aligner true --save_steps 5 --no_save_optim --no_save_rng --log_completions true --report_to swanlab --swanlab_project swift-grpo-vlm --output_dir /data/ljy23/swift-rl/output/megatron_grpo_clevr_3b --dataloader_num_workers 2 --dataset_num_proc 4 --beta 0.001 --temperature 1.0`
-
-*****************************************
-Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
-*****************************************
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
-  warnings.warn("Apex is not installed. Falling back to Torch Norm")
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
-  warnings.warn("Apex is not installed. Falling back to Torch Norm")
-[INFO:swift] megatron.core.__version__: 0.19.0
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
-  warnings.warn("Apex is not installed. Falling back to Torch Norm")
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
-  warnings.warn("Apex is not installed. Falling back to Torch Norm")
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
-  warnings.warn("Apex is not installed. Falling back to Torch Norm")
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
-  warnings.warn("Apex is not installed. Falling back to Torch Norm")
-[INFO:mcore_bridge] Setting USE_MCORE_GDN: True. You can adjust this hyperparameter through the environment variable: `USE_MCORE_GDN`.
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
-  warnings.warn("Apex is not installed. Falling back to Torch Norm")
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
-  warnings.warn("Apex is not installed. Falling back to Torch Norm")
-[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
-[INFO:swift] Successfully registered `/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/swift/dataset/data/dataset_info.json`.
-[INFO:swift] rank: 0, local_rank: 0, world_size: 4, local_world_size: 4
-[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
-[INFO:swift] Setting torch_dtype: torch.bfloat16
-[INFO:swift] Setting args.lazy_tokenize: True
-[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
-[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
-[INFO:swift] args.output_dir: /data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822
-[INFO:swift] Setting args.remove_unused_columns: False
-[INFO:swift] mcore_bridge.__version__: 1.6.4
-[INFO:swift] Setting torch_dtype: torch.bfloat16
-[INFO:swift] freeze_parameters: ['visual.visual', 'visual.visual.merger']
-[INFO:swift] TP: 1, PP: 1, VPP: None, CP: 1, EP: 1, ETP: 1
-[INFO:swift] Setting random seeds to 42.
-[INFO:swift] args: MegatronRLHFArguments(use_ray=False, ray_exp_name=None, device_groups=None, model='/data/ljy23/swift-rl/.cache/modelscope/models/Qwen--Qwen2.5-VL-3B-Instruct/snapshots/master', model_type='qwen2_5_vl', model_revision=None, task_type='causal_lm', torch_dtype=torch.bfloat16, attn_impl=None, experts_impl=None, new_special_tokens=[], num_labels=None, problem_type=None, rope_scaling=None, device_map=None, max_memory={}, max_model_len=None, local_repo_path=None, init_strategy=None, template='qwen2_5_vl', system=None, max_length=4096, truncation_strategy='left', max_pixels=262144, agent_template=None, norm_bbox=None, use_chat_template=True, padding_side='right', padding_free=True, loss_scale='last_round', sequence_parallel_size=1, is_binary_loss_scale=None, template_backend='swift', response_prefix=None, enable_thinking=None, preserve_thinking=None, add_non_thinking_prefix=True, disable_ignore_empty_think=False, dataset=['AI-ModelScope/clevr_cogen_a_train#2000'], val_dataset=[], cached_dataset=[], cached_val_dataset=[], split_dataset_ratio=0.01, data_seed=42, dataset_num_proc=4, load_from_cache_file=True, dataset_shuffle=True, val_dataset_shuffle=False, streaming=False, interleave_prob=None, stopping_strategy='first_exhausted', shuffle_buffer_size=1000, download_mode='reuse_dataset_if_exists', columns={}, strict=False, remove_unused_columns=False, disable_auto_column_mapping=False, model_name=None, model_author=None, custom_dataset_info=[], quant_method=None, quant_bits=None, hqq_axis=None, bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_quant_type='nf4', bnb_4bit_use_double_quant=True, bnb_4bit_quant_storage=None, max_new_tokens=None, temperature=1.0, top_k=-1, top_p=1.0, repetition_penalty=1.0, num_beams=1, stream=False, stop_words=[], logprobs=False, top_logprobs=None, structured_outputs_regex=None, tuner_backend='peft', tuner_type='full', adapters=[], external_plugins=[], custom_register_path=[], seed=42, model_kwargs={}, enable_npu_model_patch=True, load_args=False, load_data_args=False, packing=False, packing_length=None, packing_num_proc=1, packing_strategy='binpack', lazy_tokenize=True, use_hf=False, hub_token=None, ddp_timeout=18000000, ddp_backend='nccl', ignore_args_error=False, use_swift_lora=False, freeze_llm=False, freeze_vit=True, freeze_aligner=True, freeze_parameters=['visual.visual', 'visual.visual.merger'], freeze_parameters_regex=None, freeze_parameters_ratio=0.0, trainable_parameters=[], trainable_parameters_regex=None, target_modules=['all-linear'], target_regex=None, modules_to_save=[], lora_rank=8, lora_alpha=32.0, lora_dropout=0.05, lora_bias='none', lora_dtype=None, use_rslora=False, rlhf_type='grpo', loss_type='grpo', mcore_ref_model=None, mcore_ref_adapter=None, beta=0.001, rpo_alpha=None, reference_free=False, label_smoothing=0.0, f_divergence_type='reverse_kl', desirable_weight=1.0, undesirable_weight=1.0, calculate_KL=None, center_rewards_coefficient=None, teacher_model=None, teacher_model_type=None, teacher_model_revision=None, _teacher_use_disable_adapter=False, teacher_model_server=None, teacher_tag_key='dataset', gkd_logits_topk=None, lmbda=0.5, seq_kd=False, offload_teacher_model=False, sft_alpha=0.0, teacher_kl_coef=1.0, generation_batch_size=8, steps_per_generation=1, num_generations=2, num_generations_eval=None, max_completion_length=512, importance_sampling_level='token', tau_pos=1.0, tau_neg=1.05, real_tau=0.5, fipo_decay_rate=32.0, fipo_clip_range=0.2, fipo_clip_high_only=True, fipo_safety_threshold=4.0, epsilon=0.2, epsilon_high=None, delta=None, use_vllm=True, vllm_mode='server', vllm_enable_prefix_caching=True, vllm_gpu_memory_utilization=0.9, vllm_tensor_parallel_size=1, vllm_max_model_len=None, vllm_enforce_eager=False, vllm_limit_mm_per_prompt=None, vllm_disable_cascade_attn=False, vllm_max_num_seqs=None, vllm_mm_processor_cache_gb=None, vllm_engine_kwargs={}, vllm_enable_lora=False, sleep_level=0, offload_optimizer=False, offload_model=False, offload_bridge=False, vllm_server_base_url=None, vllm_server_host=['127.0.0.1'], vllm_server_port=[8000], vllm_server_timeout=240.0, vllm_server_group_port=None, reward_funcs=['accuracy', 'format'], reward_weights=None, cosine_min_len_value_wrong=-0.5, cosine_max_len_value_wrong=0.0, cosine_min_len_value_correct=1.0, cosine_max_len_value_correct=0.5, cosine_max_len=512, repetition_n_grams=3, repetition_max_penalty=-1.0, soft_max_length=None, soft_cache_length=None, dynamic_sample=False, max_resample_times=3, overlong_filter=False, scale_rewards='group', advantage_estimator='grpo', kl_in_reward=False, wandb_log_unique_prompts=None, log_completions=True, rollout_importance_sampling_mode=None, rollout_importance_sampling_threshold=2.0, log_rollout_offpolicy_metrics=False, off_policy_sequence_mask_delta=None, log_entropy=False, top_entropy_quantile=1.0, router_replay_mode='disabled', reward_model=None, reward_model_plugin=None, sync_ref_model=False, ref_model_sync_steps=512, ref_model_mixup_alpha=0.6, async_generate=False, move_model_batches=None, multi_turn_scheduler=None, max_turns=None, completion_length_limit_scope='per_round', vllm_server_pass_dataset=False, use_gym_env=None, gym_env=None, num_iterations=1, micro_batch_size=1, global_batch_size=8, recompute_granularity='full', recompute_method='uniform', recompute_num_layers=1, recompute_modules=['core_attn'], train_iters=5, num_train_epochs=None, masked_softmax_fusion=True, bias_dropout_fusion=True, bias_activation_fusion=True, apply_rope_fusion=False, gradient_accumulation_fusion=False, cross_entropy_loss_fusion=True, cross_entropy_fusion_impl='native', calculate_per_token_loss=False, attention_backend=<AttnBackend.auto: 5>, optimizer='adam', optimizer_cpu_offload=True, optimizer_offload_fraction=1.0, optimizer_cuda_graph=False, use_precision_aware_optimizer=True, main_grads_dtype=torch.bfloat16, main_params_dtype=torch.float32, exp_avg_dtype=torch.float32, exp_avg_sq_dtype=torch.float32, manual_gc=False, manual_gc_steps=0, manual_gc_eval=True, train_dataloader_shuffle=True, dataloader_num_workers=2, dataloader_pin_memory=True, dataloader_persistent_workers=True, dataloader_prefetch_factor=2, dataloader_multiprocessing_context=None, data_sharding=False, group_by_length=False, te_rng_tracker=False, data_parallel_random_init=False, mlp_padding_free=False, lr_warmup_init=0.0, lr=1e-06, lr_decay_style='constant', lr_decay_iters=None, lr_warmup_iters=0, lr_warmup_fraction=0.05, min_lr=1e-07, lr_wsd_decay_style='exponential', lr_wsd_decay_iters=None, weight_decay=0.1, weight_decay_incr_style='constant', start_weight_decay=0.1, end_weight_decay=0.1, clip_grad=1.0, adam_beta1=0.9, adam_beta2=0.95, adam_eps=1e-08, sgd_momentum=0.9, muon_momentum=0.9, muon_split_qkv=True, muon_use_nesterov=False, muon_scale_mode='spectral', muon_fp32_matmul_prec='medium', muon_coefficient_type='quintic', muon_num_ns_steps=5, muon_tp_mode='blockwise', muon_extra_scale_factor=1.0, muon_scalar_optimizer='adam', muon_lr=None, muon_min_lr=None, output_dir='/data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822', save_steps=5, no_save_optim=True, no_save_rng=True, mcore_model=None, mcore_adapter=None, no_load_optim=False, no_load_rng=False, finetune=True, perform_initialization=False, use_cpu_initialization=False, async_save=False, save_total_limit=None, metric_for_best_model='reward', greater_is_better=True, use_persistent_ckpt_worker=False, dist_ckpt_save_pre_mcore_014=False, dist_ckpt_optim_fully_reshardable=False, distrib_optim_fully_reshardable_mem_efficient=False, local_rank=0, use_distributed_optimizer=True, use_megatron_fsdp=False, strict_fsdp_dtensor_load=True, data_parallel_sharding_strategy='optim_grads_params', tensor_model_parallel_size=1, pipeline_model_parallel_size=1, decoder_first_pipeline_num_layers=None, decoder_last_pipeline_num_layers=None, account_for_embedding_in_pipeline_split=False, account_for_loss_in_pipeline_split=False, overlap_p2p_comm=False, batch_p2p_comm=True, align_param_gather=False, sequence_parallel=False, context_parallel_size=1, cp_comm_type=None, cp_partition_mode='zigzag', sequence_packing_scheduler=None, tp_comm_overlap=False, overlap_grad_reduce=False, overlap_param_gather=False, overlap_param_gather_with_optimizer_step=False, align_grad_reduce=True, nccl_comm_warmup=False, virtual_pipeline_model_parallel_size=None, microbatch_group_size_per_vp_stage=None, pipeline_model_parallel_layout=None, expert_model_parallel_size=1, expert_tensor_parallel_size=1, report_to=['swanlab'], logging_steps=5, tensorboard_dir='/data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822/runs', tensorboard_queue_size=50, wandb_project='megatron-swift', wandb_exp_name=None, swanlab_project='swift-grpo-vlm', swanlab_exp_name=None, eval_iters=-1, eval_steps=5, fp8_format=None, fp8_recipe='delayed', fp8_param_gather=False, fp8_amax_history_len=1024, fp8_amax_compute_algo='max', fp4_format=None, fp4_recipe='nvfp4', fp4_param_gather=False, fp16=False, bf16=True, apply_query_key_layer_scaling=False, attention_softmax_in_fp32=True, accumulate_allreduce_grads_in_fp32=False, moe_router_load_balancing_type=None, moe_router_dtype='fp32', moe_token_dispatcher_type='alltoall', moe_enable_deepep=False, moe_grouped_gemm=True, moe_permute_fusion=False, moe_aux_loss_coeff=None, moe_z_loss_coeff=None, moe_shared_expert_overlap=False, moe_layer_recompute=False, moe_expert_capacity_factor=None, moe_pad_expert_input_to_capacity=False, moe_token_drop_policy='probs', mtp_num_layers=None, mtp_loss_scaling_factor=0.1, mtp_decoder_input_detach=False, mtp_shared_weights=False, bridge_backend='mcore-bridge', save_safetensors=True, save_missing_weights=False, ref_model=None, ref_adapters=[], merge_lora=True, max_shard_size='5GB', vit_gradient_checkpointing=False, vit_gradient_checkpointing_kwargs=None, vit_attn_impl=None, vit_lr=None, aligner_lr=None, dsa_indexer_loss_coeff=0.0, dsa_indexer_use_sparse_loss=False, apply_dsa_kernel_fusion=False, csa_dense_mode=False, use_fused_mhc=False, mhc_recompute_layer_num=None, megatron_extra_kwargs=None, language_model_only=False, check_model=True, apply_wd_to_qk_layernorm=False, linear_decoupled_in_proj=False, enable_dft_loss=False, enable_channel_loss=False, mrl_dims=None, save_strategy='steps', callbacks=['print', 'default_flow', 'swanlab'], skip_megatron_init=False, add_version=True, create_checkpoint_symlink=False)
-[INFO:swift] Setting max_ratio: 200. You can adjust this hyperparameter through the environment variable: `MAX_RATIO`.
-[INFO:swift] Setting frame_factor: 2. You can adjust this hyperparameter through the environment variable: `FRAME_FACTOR`.
-[INFO:swift] Setting fps: 2.0. You can adjust this hyperparameter through the environment variable: `FPS`.
-[INFO:swift] Setting fps_min_frames: 4. You can adjust this hyperparameter through the environment variable: `FPS_MIN_FRAMES`.
-[INFO:swift] Setting fps_max_frames: 768. You can adjust this hyperparameter through the environment variable: `FPS_MAX_FRAMES`.
-[INFO:swift] Using environment variable `IMAGE_MAX_TOKEN_NUM`, Setting image_max_token_num: 334.
-[INFO:swift] Setting image_min_token_num: 4. You can adjust this hyperparameter through the environment variable: `IMAGE_MIN_TOKEN_NUM`.
-[INFO:swift] Setting spatial_merge_size: 2. You can adjust this hyperparameter through the environment variable: `SPATIAL_MERGE_SIZE`.
-[INFO:swift] Setting video_max_token_num: 768. You can adjust this hyperparameter through the environment variable: `VIDEO_MAX_TOKEN_NUM`.
-[INFO:swift] Setting video_min_token_num: 128. You can adjust this hyperparameter through the environment variable: `VIDEO_MIN_TOKEN_NUM`.
-[INFO:swift] model_kwargs: {'device_map': 'cuda:0', 'dtype': torch.bfloat16}
-[INFO:swift] default_system: 'You are a helpful assistant.'
-[INFO:swift] max_length: 4096
-[INFO:swift] response_prefix: None
-[INFO:swift] agent_template: hermes
-[INFO:swift] norm_bbox: none
-[INFO:swift] Setting ROOT_IMAGE_DIR: None. You can adjust this hyperparameter through the environment variable: `ROOT_IMAGE_DIR`.
-[INFO:swift] Setting QWENVL_BBOX_FORMAT: legacy. You can adjust this hyperparameter through the environment variable: `QWENVL_BBOX_FORMAT`.
-[INFO:swift] The MegatronRLHFArguments will be saved in: /data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822/args.json
-[INFO:swift] Start time of running main: 2026-09-11 13:58:23.426705
-[INFO:swift] swift.__version__: 4.5.3
-[INFO:swift] Downloading the dataset from ModelScope, dataset_id: AI-ModelScope/clevr_cogen_a_train
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
-  return func(*args, **kwargs)
-[INFO:swift] The split dataset from the training set will be saved at: `/data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822/val_dataset.jsonl`.
-[INFO:swift] train_dataset: Dataset({
-    features: ['images', 'messages', 'solution', 'dataset'],
-    num_rows: 1980
-})
-[INFO:swift] val_dataset: Dataset({
-    features: ['images', 'messages', 'solution', 'dataset'],
-    num_rows: 20
-})
-[INFO:swift] Setting args.eval_iters: 5
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/trl/generation/__init__.py:22: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.29.0 installed. We recommend installing a supported version to avoid compatibility issues.
-  if is_vllm_available():
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/trl/generation/__init__.py:22: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.29.0 installed. We recommend installing a supported version to avoid compatibility issues.
-  if is_vllm_available():
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/trl/generation/__init__.py:22: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.29.0 installed. We recommend installing a supported version to avoid compatibility issues.
-  if is_vllm_available():
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/trl/generation/vllm_client.py:39: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.29.0 installed. We recommend installing a supported version to avoid compatibility issues.
-  if is_vllm_available():
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/trl/generation/vllm_client.py:39: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.29.0 installed. We recommend installing a supported version to avoid compatibility issues.
-  if is_vllm_available():
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/trl/generation/vllm_client.py:39: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.29.0 installed. We recommend installing a supported version to avoid compatibility issues.
-  if is_vllm_available():
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/trl/generation/vllm_generation.py:37: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.29.0 installed. We recommend installing a supported version to avoid compatibility issues.
-  if is_vllm_available():
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/trl/generation/vllm_generation.py:37: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.29.0 installed. We recommend installing a supported version to avoid compatibility issues.
-  if is_vllm_available():
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/trl/generation/vllm_generation.py:37: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.29.0 installed. We recommend installing a supported version to avoid compatibility issues.
-  if is_vllm_available():
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/trl/generation/__init__.py:22: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.29.0 installed. We recommend installing a supported version to avoid compatibility issues.
-  if is_vllm_available():
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/trl/generation/vllm_client.py:39: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.29.0 installed. We recommend installing a supported version to avoid compatibility issues.
-  if is_vllm_available():
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/trl/generation/vllm_generation.py:37: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.29.0 installed. We recommend installing a supported version to avoid compatibility issues.
-  if is_vllm_available():
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/transformer/transformer_config.py:2415: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
-  warnings.warn(
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/transformer/transformer_config.py:2415: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
-  warnings.warn(
-GPTModel IS DEPRECATED. GPTModel is only accepting critical bug fixes, no new features. Please reference the migration guide `docs/user-guide/hybrid-model-migration.md` for details on how to use `HybridModel`
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/transformer/transformer_config.py:2415: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
-  warnings.warn(
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/transformer/transformer_config.py:2415: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
-  warnings.warn(
-[INFO:swift] model_config: ModelConfig(tensor_model_parallel_size=1, tensor_parallel_num_weight_shards=None, gtp_weight_remat_size=1, pipeline_model_parallel_comm_backend=None, pipeline_model_parallel_size=1, virtual_pipeline_model_parallel_size=None, sequence_parallel=False, context_parallel_size=1, hierarchical_context_parallel_sizes=None, max_seqlen_per_dp_cp_rank=None, hybrid_context_parallel=False, expert_model_parallel_size=1, expert_tensor_parallel_size=1, expert_tensor_parallel_num_weight_shards=None, expert_gtp_weight_remat_size=1, perform_initialization=False, use_cpu_initialization=False, fp16=False, bf16=True, params_dtype=torch.bfloat16, timers=None, finalize_model_grads_func=None, grad_scale_func=None, moe_grad_scale_func=None, mtp_grad_scale_func=None, no_sync_func=None, grad_sync_func=None, param_sync_func=None, deterministic_mode=False, enable_autocast=False, autocast_dtype=torch.bfloat16, num_microbatches_with_partial_activation_checkpoints=None, gradient_accumulation_fusion=False, use_te_rng_tracker=False, tp_comm_overlap=False, tp_comm_bulk_wgrad=True, tp_comm_bulk_dgrad=True, tp_comm_overlap_ag=True, tp_comm_overlap_rs=True, tp_comm_overlap_rs_dgrad=False, tp_comm_split_ag=True, tp_comm_atomic_ag=False, tp_comm_split_rs=True, tp_comm_atomic_rs=False, cross_entropy_loss_fusion=True, cross_entropy_fusion_impl='native', tp_comm_overlap_disable_qkv=False, tp_comm_overlap_disable_fc1=False, tp_comm_bootstrap_backend='nccl', overlap_moe_expert_parallel_comm=False, delay_wgrad_compute=False, overlap_dispatch_backward_with_experts_wgrad=False, ep_overlap_early_attn_memory_release=False, pipeline_dtype=torch.bfloat16, variable_seq_lengths=True, overlap_p2p_comm=False, batch_p2p_comm=True, batch_p2p_sync=True, use_ring_exchange_p2p=False, deallocate_pipeline_outputs=True, defer_embedding_wgrad_compute=False, wgrad_deferral_limit=0, overlap_p2p_comm_warmup_flush=False, microbatch_group_size_per_vp_stage=1, mtp_standalone=False, cpu_offloading=False, cpu_offloading_num_layers=0, _cpu_offloading_context=None, cpu_offloading_activations=True, cpu_offloading_weights=False, cpu_offloading_double_buffering=False, cpu_offloading_retain_pinned_cpu_buffers=False, barrier_with_L1_time=True, num_layers=36, mtp_num_layers=None, mtp_loss_scaling_factor=0.1, mtp_use_repeated_layer=False, mtp_detach_heads=False, mtp_hybrid_override_pattern=None, num_layers_in_first_pipeline_stage=None, num_layers_in_last_pipeline_stage=None, pipeline_model_parallel_layout=None, account_for_embedding_in_pipeline_split=False, account_for_loss_in_pipeline_split=False, hidden_size=2048, num_attention_heads=16, attention_backend=<AttnBackend.auto: 5>, flash_attention_version=None, softmax_scale=None, softmax_type='vanilla', num_query_groups=2, ffn_hidden_size=11008, kv_channels=128, hidden_dropout=0.0, attention_dropout=0.0, fp32_residual_connection=False, apply_residual_connection_post_layernorm=False, layernorm_epsilon=1e-06, layernorm_zero_centered_gamma=False, add_bias_linear=False, add_qkv_bias=True, gated_linear_unit=True, activation_func=<function silu at 0x7f7e75141800>, activation_func_fp8_input_store=False, glu_linear_offset=0.0, activation_func_clamp_value=None, num_moe_experts=None, rotary_interleaved=False, window_size=None, window_attn_skip_freq=None, normalization='RMSNorm', qk_layernorm=False, qk_l2_norm=False, qk_clip=False, qk_clip_alpha=0.5, qk_clip_threshold=100, log_max_attention_logit=False, attention_output_gate=False, test_mode=False, calculate_per_token_loss=False, multi_latent_attention=False, no_rope_freq=None, experimental_attention_variant=None, experimental_attention_variant_loss_scale_func=None, dsa_indexer_n_heads=None, dsa_indexer_head_dim=None, dsa_indexer_topk=None, dsa_indexer_topk_freq=1, dsa_indexer_skip_topk_offset=0, dsa_indexer_loss_coeff=0.0, dsa_indexer_use_sparse_loss=False, dsa_kernel_backend='none', dsa_indexer_rope_interleaved=False, dsa_indexer_rotate_activation=True, dsa_indexer_scoring_relu=True, dsa_indexer_k_norm_epsilon=None, dsa_indexer_k_norm_fp32=False, linear_attention_freq=None, linear_conv_kernel_dim=None, linear_key_head_dim=None, linear_value_head_dim=None, linear_num_key_heads=None, linear_num_value_heads=None, init_method=functools.partial(<function normal_ at 0x7f7e751ce8e0>, mean=0.0, std=0.02), output_layer_init_method=functools.partial(<function normal_ at 0x7f7e751ce8e0>, mean=0.0, std=0.0023570226039551587), init_method_std=0.02, embedding_init_method=functools.partial(<function normal_ at 0x7f7e751ce8e0>, mean=0.0, std=0.02), embedding_init_method_std=0.02, init_model_with_meta_device=False, use_mup=False, mup_width_mult=1.0, mup_base_hidden_size=None, mup_embedding_mult=1.0, mup_output_mult=1.0, mup_base_head_dim=None, mup_attn_scale_power=1.0, apply_query_key_layer_scaling=False, attention_softmax_in_fp32=True, disable_bf16_reduced_precision_matmul=False, bias_activation_fusion=True, masked_softmax_fusion=True, persist_layer_norm=True, memory_efficient_layer_norm=False, bias_dropout_fusion=True, apply_rope_fusion=False, use_fused_weighted_squared_relu=False, fused_single_qkv_rope=False, fused_residual_rmsnorm=False, use_transformer_engine_op_fuser=False, recompute_granularity='full', recompute_method='uniform', recompute_num_layers=1, distribute_saved_activations=False, recompute_modules=['core_attn'], fp8=None, fp8_recipe='delayed', fp8_param=False, fp8_quantizer_factory=None, fp8_margin=0, fp8_interval=1, fp8_amax_history_len=1024, fp8_amax_compute_algo='max', fp8_wgrad=True, fp8_output_proj=False, fp8_dot_product_attention=False, fp8_multi_head_attention=False, tp_only_amax_red=False, first_last_layers_bf16=False, num_layers_at_start_in_bf16=1, num_layers_at_end_in_bf16=1, use_kitchen=False, use_kitchen_attention=False, kitchen_attention_backend='sdpa', fp4=None, fp4_recipe='nvfp4', fp4_param=False, fp4_quantizer_factory=None, high_priority_a2a_comm_stream=False, moe_shared_expert_intermediate_size=None, moe_shared_expert_gate=False, moe_shared_expert_overlap=False, use_grouped_gemm_for_shared_expert=False, moe_shared_expert_glu_interleave_size=None, moe_layer_freq=1, moe_ffn_hidden_size=None, moe_router_load_balancing_type='aux_loss', moe_router_topk=2, moe_enable_routing_replay=False, moe_router_topk_limited_devices=None, moe_router_padding_for_quantization=False, moe_router_padding_for_fp8=False, moe_router_num_groups=None, moe_router_group_topk=None, moe_router_pre_softmax=False, moe_router_topk_scaling_factor=None, moe_router_score_function='softmax', moe_router_dtype='fp32', moe_router_enable_expert_bias=False, moe_router_bias_update_rate=0.001, moe_router_quantile_balancing_ema=0.0, moe_router_force_load_balancing=False, moe_router_force_biased=None, use_grouped_gemm_for_dense_mlp=False, moe_grouped_gemm=True, moe_single_grouped_weight=False, moe_single_grouped_bias=False, moe_aux_loss_coeff=0.0, moe_z_loss_coeff=None, moe_input_jitter_eps=None, moe_token_dropping=False, moe_token_dispatcher_type='alltoall', moe_enable_deepep=False, moe_flex_dispatcher_backend='deepep', moe_permute_fusion_into_hybridep=False, moe_hybridep_pad_uneven_dispatch_inputs=False, moe_per_layer_logging=False, moe_expert_capacity_factor=None, moe_pad_expert_input_to_capacity=False, moe_pad_experts_for_cuda_graph_inference=False, moe_token_drop_policy='probs', moe_layer_recompute=False, moe_permute_fusion=False, moe_router_fusion=False, moe_apply_probs_on_input=None, moe_latent_size=None, moe_flex_dispatcher_num_sms=None, moe_deepep_num_sms=None, moe_hybridep_num_sms=None, moe_hybridep_num_blocks_permute=None, moe_hybridep_num_blocks_unpermute=None, moe_hybridep_num_sms_preprocessing=108, moe_ncclep_static_shape=False, moe_ncclep_zero_copy=False, moe_mlp_glu_interleave_size=None, moe_expert_rank_capacity_factor=None, cp_comm_type='p2p', enable_cuda_graph=False, cuda_graph_use_single_mempool=True, cuda_graph_retain_backward_graph=False, cuda_graph_warmup_steps=3, external_cuda_graph=False, cuda_graph_impl='none', cuda_graph_modules=[], inference_cuda_graph_scope=<InferenceCudaGraphScope.none: 1>, cuda_graph_scope=None, clone_scatter_output_in_embedding=True, disable_parameter_transpose_cache=False, config_logger_dir='', flash_decode=False, batch_invariant_mode=False, use_te_activation_func=False, inference_rng_tracker=False, inference_sampling_seed=42, symmetric_ar_type=None, nccl_all_reduce_for_prefill=False, use_inference_optimized_layers=False, inference_fuse_tp_communication=False, inference_disable_triton_nvls_kernels=False, inference_grouped_gemm_backend='vllm', inference_moe_disable_fused_quant_kernels=False, inference_moe_token_dispatcher_type='nvls', mrope_section=[16, 24, 24], is_hybrid_model=False, mamba_state_dim=128, mamba_head_dim=64, mamba_num_groups=8, mamba_num_heads=None, mamba_training_ssm_states_dtype=None, use_mamba_mem_eff_path=True, mlp_chunks_for_prefill=1, mlp_chunks_for_training=1, heterogeneous_block_specs=False, hetereogenous_dist_checkpoint=False, quant_recipe=None, transformer_impl='transformer_engine', fine_grained_activation_offloading=False, offload_modules=[], min_offloaded_tensor_size=1048576, delay_offload_until_cuda_graph=False, delta_offload_bytes_across_pp_ranks=0, activation_offload_fraction=1.0, moe_paged_stash=False, moe_paged_stash_page_size=64, moe_paged_stash_buffer_size_factor_cuda=1.1, moe_paged_stash_buffer_size_factor_cpu=0.0, fine_grained_offloading_max_inflight_offloads=None, mcore_model_type='qwen2_5_vl', hf_model_type='qwen2_5_vl', llm_model_type='qwen2_5_vl_text', padded_vocab_size=151936, rope_scaling={'type': 'mrope', 'mrope_section': [16, 24, 24], 'rope_theta': 1000000.0, 'rope_type': 'default'}, attention_scaling=1.0, max_position_embeddings=128000, position_embedding_type='mrope', rotary_base=1000000.0, rotary_percent=1.0, original_max_position_embeddings=None, partial_rotary_factor=None, mrope_interleaved=False, swiglu=True, quick_geglu=False, untie_embeddings_and_output_weights=False, q_lora_rank=None, kv_lora_rank=32, qk_head_dim=128, qk_pos_emb_head_dim=64, v_head_dim=128, linear_decoupled_in_proj=False, hc_count=None, hc_lowrank=None, ple_layer_ids=None, ple_embed_dim=None, ple_conv_kernel_size=None, ngram_size=None, heads_per_ngram=None, ngram_vocab_size_base=None, make_ngram_vocab_size_divisible_by=None, split_ngram_parts=None, ple_seed=None, eos_token_id=None, indexer_n_heads=None, indexer_kv_heads=None, indexer_head_dim=None, indexer_budget=None, indexer_compress_ratio=None, output_gate_type=None, hybrid_layer_pattern=None, dsa_indexer_rotary_interleaved=False, csa_window_size=128, csa_compress_ratios=None, csa_compress_rotary_base=40000.0, o_groups=8, o_lora_rank=1024, enable_hyper_connections=False, num_residual_streams=4, mhc_sinkhorn_iterations=20, mhc_init_gating_factor=0.01, moe_n_hash_layers=0, mtp_decoder_input_detach=False, mtp_shared_weights=False, language_model_only=False, hf_config=Qwen2_5_VLConfig {
-  "architectures": [
-    "Qwen2_5_VLForConditionalGeneration"
-  ],
-  "dtype": "bfloat16",
-  "hidden_size": 2048,
-  "image_token_id": 151655,
-  "model_type": "qwen2_5_vl",
-  "text_config": {
-    "attention_dropout": 0.0,
-    "bos_token_id": 151643,
-    "dtype": "bfloat16",
-    "eos_token_id": 151645,
-    "hidden_act": "silu",
-    "hidden_size": 2048,
-    "initializer_range": 0.02,
-    "intermediate_size": 11008,
-    "layer_types": [
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention",
-      "full_attention"
-    ],
-    "max_position_embeddings": 128000,
-    "max_window_layers": 70,
-    "model_type": "qwen2_5_vl_text",
-    "num_attention_heads": 16,
-    "num_hidden_layers": 36,
-    "num_key_value_heads": 2,
-    "pad_token_id": null,
-    "rms_norm_eps": 1e-06,
-    "rope_parameters": {
-      "mrope_section": [
-        16,
-        24,
-        24
-      ],
-      "rope_theta": 1000000.0,
-      "rope_type": "default",
-      "type": "mrope"
-    },
-    "sliding_window": null,
-    "use_cache": true,
-    "use_sliding_window": false,
-    "vocab_size": 151936
-  },
-  "tie_word_embeddings": true,
-  "transformers_version": "5.16.1",
-  "video_token_id": 151656,
-  "vision_config": {
-    "depth": 32,
-    "dtype": "bfloat16",
-    "fullatt_block_indexes": [
-      7,
-      15,
-      23,
-      31
-    ],
-    "hidden_act": "silu",
-    "hidden_size": 1280,
-    "in_channels": 3,
-    "in_chans": 3,
-    "initializer_range": 0.02,
-    "intermediate_size": 3420,
-    "model_type": "qwen2_5_vl_vision",
-    "num_heads": 16,
-    "out_hidden_size": 2048,
-    "patch_size": 14,
-    "spatial_merge_size": 2,
-    "spatial_patch_size": 14,
-    "temporal_patch_size": 2,
-    "tokens_per_second": 2,
-    "window_size": 112
-  },
-  "vision_end_token_id": 151653,
-  "vision_start_token_id": 151652,
-  "vision_token_id": 151654
-}
-, vit_attn_impl=None, task_type='causal_lm', num_labels=None, mlp_padding_free=False)
-Loading:   0%|          | 0/36 [00:00<?, ?it/s]Loading:   6%|▌         | 2/36 [00:00<00:02, 13.43it/s]Loading:  11%|█         | 4/36 [00:00<00:02, 13.32it/s]Loading:  17%|█▋        | 6/36 [00:00<00:02, 12.33it/s]Loading:  22%|██▏       | 8/36 [00:00<00:02, 11.98it/s]Loading:  28%|██▊       | 10/36 [00:00<00:02, 11.89it/s]Loading:  33%|███▎      | 12/36 [00:00<00:01, 12.06it/s]Loading:  39%|███▉      | 14/36 [00:01<00:01, 12.10it/s]Loading:  44%|████▍     | 16/36 [00:01<00:01, 12.08it/s]Loading:  50%|█████     | 18/36 [00:01<00:01, 12.31it/s]Loading:  56%|█████▌    | 20/36 [00:01<00:01, 12.31it/s]Loading:  61%|██████    | 22/36 [00:01<00:01, 12.27it/s]Loading:  67%|██████▋   | 24/36 [00:01<00:00, 12.39it/s]Loading:  72%|███████▏  | 26/36 [00:02<00:00, 12.49it/s]Loading:  78%|███████▊  | 28/36 [00:02<00:00, 12.21it/s]Loading:  83%|████████▎ | 30/36 [00:02<00:00, 12.11it/s]Loading:  89%|████████▉ | 32/36 [00:02<00:00, 12.27it/s]Loading:  94%|█████████▍| 34/36 [00:02<00:00, 12.16it/s]Loading: 100%|██████████| 36/36 [00:02<00:00, 12.09it/s]Loading: 100%|██████████| 36/36 [00:02<00:00, 12.23it/s]
-[INFO:swift] model: MultimodalGPTModel(
-  (language_model): GPTModel(
-    (embedding): LanguageModelEmbedding(
-      (word_embeddings): VocabParallelEmbedding()
-      (embedding_dropout): Dropout(p=0.0, inplace=False)
-    )
-    (rotary_pos_emb): MultimodalRotaryEmbedding()
-    (decoder): TransformerBlock(
-      (layers): ModuleList(
-        (0-35): 36 x TransformerLayer(
-          (input_layernorm): IdentityOp()
-          (self_attention): SelfAttention(
-            (core_attention): TEDotProductAttention(
-              (flash_attention): FlashAttention()
-              (fused_attention): FusedAttention()
-              (unfused_attention): UnfusedDotProductAttention(
-                (scale_mask_softmax): FusedScaleMaskSoftmax()
-                (attention_dropout): Dropout(p=0.0, inplace=False)
-              )
-            )
-            (linear_proj): TERowParallelLinear(in_features=2048, out_features=2048, bias=False, TP=1)
-            (linear_qkv): TELayerNormColumnParallelLinear(in_features=2048, out_features=2560, bias=True, TP=1)
-          )
-          (pre_cross_attn_layernorm): IdentityOp()
-          (cross_attention): IdentityOp()
-          (cross_attn_bda): IdentityFuncOp()
-          (pre_mlp_layernorm): IdentityOp()
-          (mlp): MLP(
-            (linear_fc1): TELayerNormColumnParallelLinear(in_features=2048, out_features=22016, bias=False, TP=1)
-            (linear_fc2): TERowParallelLinear(in_features=11008, out_features=2048, bias=False, TP=1)
-          )
-        )
-      )
-      (final_layernorm): RMSNorm()
-    )
-    (output_layer): ColumnParallelLinear(in_features=2048, out_features=151936, bias=False, TP=1)
-  )
-  (visual): Qwen2_5VL_Vit(
-    (visual): Qwen2_5_VisionTransformerPretrainedModel(
-      (patch_embed): Qwen2_5_VisionPatchEmbed(
-        (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
-      )
-      (rotary_pos_emb): Qwen2_5_VisionRotaryEmbedding()
-      (blocks): ModuleList(
-        (0-31): 32 x Qwen2_5_VLVisionBlock(
-          (norm1): Qwen2_5_VLRMSNorm((1280,), eps=1e-06)
-          (norm2): Qwen2_5_VLRMSNorm((1280,), eps=1e-06)
-          (attn): Qwen2_5_VLVisionAttention(
-            (qkv): Linear(in_features=1280, out_features=3840, bias=True)
-            (proj): Linear(in_features=1280, out_features=1280, bias=True)
-          )
-          (mlp): Qwen2_5_VLMLP(
-            (gate_proj): Linear(in_features=1280, out_features=3420, bias=True)
-            (up_proj): Linear(in_features=1280, out_features=3420, bias=True)
-            (down_proj): Linear(in_features=3420, out_features=1280, bias=True)
-            (act_fn): SiLUActivation()
-          )
-        )
-      )
-      (merger): Qwen2_5_VLPatchMerger(
-        (ln_q): Qwen2_5_VLRMSNorm((1280,), eps=1e-06)
-        (mlp): Sequential(
-          (0): Linear(in_features=5120, out_features=5120, bias=True)
-          (1): GELU(approximate='none')
-          (2): Linear(in_features=5120, out_features=2048, bias=True)
-        )
-      )
-    )
-  )
-)
-[INFO:swift] [rank0] model_parameter_info: MultimodalGPTModel: 3754.6230M Params (3085.9387M Trainable [82.1904%]), 0.0000M Buffers.
-DistributedDataParallel: full_param_layout not provided with use_distributed_optimizer=True. Auto-computing layout inside DDP. Callers should pre-compute layouts via DistributedOptimizer.compute_full_param_layout() and pass them in.
-GPTModel IS DEPRECATED. GPTModel is only accepting critical bug fixes, no new features. Please reference the migration guide `docs/user-guide/hybrid-model-migration.md` for details on how to use `HybridModel`
-Loading:   0%|          | 0/36 [00:00<?, ?it/s]Loading:   6%|▌         | 2/36 [00:00<00:02, 12.72it/s]Loading:  11%|█         | 4/36 [00:00<00:02, 12.97it/s]Loading:  17%|█▋        | 6/36 [00:00<00:02, 12.37it/s]Loading:  22%|██▏       | 8/36 [00:00<00:02, 12.16it/s]Loading:  28%|██▊       | 10/36 [00:00<00:02, 12.14it/s]Loading:  33%|███▎      | 12/36 [00:00<00:01, 12.23it/s]Loading:  39%|███▉      | 14/36 [00:01<00:01, 12.42it/s]Loading:  44%|████▍     | 16/36 [00:01<00:01, 12.54it/s]Loading:  50%|█████     | 18/36 [00:01<00:01, 12.98it/s]Loading:  56%|█████▌    | 20/36 [00:01<00:01, 13.05it/s]Loading:  61%|██████    | 22/36 [00:01<00:01, 13.17it/s]/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
-  class MimoModelConfig:
-Loading:  67%|██████▋   | 24/36 [00:01<00:00, 13.37it/s]Loading:  72%|███████▏  | 26/36 [00:02<00:00, 13.59it/s]Loading:  78%|███████▊  | 28/36 [00:02<00:00, 13.47it/s]/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
-  class MimoModelConfig:
-Loading:  83%|████████▎ | 30/36 [00:02<00:00, 13.68it/s]Loading:  89%|████████▉ | 32/36 [00:02<00:00, 13.51it/s]Loading:  94%|█████████▍| 34/36 [00:02<00:00, 13.65it/s]Loading: 100%|██████████| 36/36 [00:02<00:00, 13.64it/s]Loading: 100%|██████████| 36/36 [00:02<00:00, 13.09it/s]
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
-  class MimoModelConfig:
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
-  class MimoModelConfig:
-swanlab: Tracking run with swanlab version 0.10.0
-swanlab: 💾 Run data saved at 
-/data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822/swanlab/ru
-n-20260911_135926-uucwaksw
-swanlab: 🌟 Run `swanlab watch 
-/data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822/swanlab` 
-to view SwanLab Experiment Dashboard
-[INFO:swift] logging_path: /data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822/logging.jsonl
-[INFO:swift] The training of Epoch 0 starts...
-Train:   0%|          | 0/5 [00:00<?, ?it/s][WARNING  | DotProductAttention]: flash-attn v4 may provide important feature support or performance improvement. Please install flash-attn v4 by 
-pip install flash-attn-4==4.0.0b11 nvidia-cutlass-dsl[cu13]
-[WARNING  | DotProductAttention]: flash-attn may provide important feature support or performance improvement. Please install flash-attn >= 2.1.1, <= 2.8.3 by pip3 install flash-attn==<version>.
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.all_gather_into_tensor` is deprecated. Please use `torch.distributed.all_gather_single` instead.
-  return func(*args, **kwargs)
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.all_gather_into_tensor` is deprecated. Please use `torch.distributed.all_gather_single` instead.
-  return func(*args, **kwargs)
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.all_gather_into_tensor` is deprecated. Please use `torch.distributed.all_gather_single` instead.
-  return func(*args, **kwargs)
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.all_gather_into_tensor` is deprecated. Please use `torch.distributed.all_gather_single` instead.
-  return func(*args, **kwargs)
-Implicit initialization of Rerun State Machine!
-RerunStateMachine initialized in mode RerunMode.DISABLED
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/pipeline_parallel/schedules.py:220: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/input_buffer.cpp:310.)
-  Variable._execution_engine.run_backward(
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/pipeline_parallel/schedules.py:220: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/input_buffer.cpp:310.)
-  Variable._execution_engine.run_backward(
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/pipeline_parallel/schedules.py:220: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/input_buffer.cpp:310.)
-  Variable._execution_engine.run_backward(
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/megatron/core/pipeline_parallel/schedules.py:220: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/input_buffer.cpp:310.)
-  Variable._execution_engine.run_backward(
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead.
-  return func(*args, **kwargs)
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead.
-  return func(*args, **kwargs)
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead.
-  return func(*args, **kwargs)
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead.
-  return func(*args, **kwargs)
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.all_gather_into_tensor` is deprecated. Please use `torch.distributed.all_gather_single` instead.
-  return func(*args, **kwargs)
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.all_gather_into_tensor` is deprecated. Please use `torch.distributed.all_gather_single` instead.
-  return func(*args, **kwargs)
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.all_gather_into_tensor` is deprecated. Please use `torch.distributed.all_gather_single` instead.
-  return func(*args, **kwargs)
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.all_gather_into_tensor` is deprecated. Please use `torch.distributed.all_gather_single` instead.
-  return func(*args, **kwargs)
-Train:  20%|██        | 1/5 [00:29<01:57, 29.46s/it]                                                    {'loss': 1.1e-06, 'kl': 0.00109168, 'reward': 1.25, 'reward_std': 0.35355338, 'frac_reward_zero_std': 0.5, 'rewards/MathAccuracy/mean': 0.375, 'rewards/MathAccuracy/std': 0.51754916, 'rewards/Format/mean': 0.875, 'rewards/Format/std': 0.35355338, 'clip_ratio/low_mean': 0.0, 'clip_ratio/high_mean': 0.0, 'clip_ratio/region_mean': 0.0, 'completions/mean_length': 134.0, 'completions/max_length': 225.5, 'completions/min_length': 77.0, 'clip_ratio/low_min': 0.0, 'clip_ratio/high_max': 0.0, 'grad_norm': 3.15168214, 'learning_rate': 1e-06, 'iteration': '1/5', 'elapsed_time': '29s', 'remaining_time': '1m 58s', 'memory(GiB)': 21.11, 'train_speed(s/it)': 29.461619}
-Train:  20%|██        | 1/5 [00:29<01:57, 29.46s/it]Train:  40%|████      | 2/5 [00:39<00:54, 18.25s/it]Train:  60%|██████    | 3/5 [00:49<00:28, 14.28s/it]Train:  80%|████████  | 4/5 [00:59<00:12, 12.65s/it]Train: 100%|██████████| 5/5 [01:08<00:00, 11.42s/it]                                                    {'loss': 1.1e-06, 'kl': 0.00110567, 'reward': 1.21875, 'reward_std': 0.4861359, 'frac_reward_zero_std': 0.4375, 'rewards/MathAccuracy/mean': 0.34375, 'rewards/MathAccuracy/std': 0.49447292, 'rewards/Format/mean': 0.875, 'rewards/Format/std': 0.29250419, 'clip_ratio/low_mean': 0.0, 'clip_ratio/high_mean': 0.0, 'clip_ratio/region_mean': 0.0, 'completions/mean_length': 102.75, 'completions/max_length': 142.0, 'completions/min_length': 67.0, 'clip_ratio/low_min': 0.0, 'clip_ratio/high_max': 0.0, 'grad_norm': 4.44020891, 'learning_rate': 1e-06, 'iteration': '5/5', 'elapsed_time': '1m 9s', 'remaining_time': '0s', 'memory(GiB)': 21.22, 'train_speed(s/it)': 13.761404}
-Train: 100%|██████████| 5/5 [01:08<00:00, 11.42s/it]
-Evaluate:   0%|          | 0/5 [00:00<?, ?it/s][A
-Evaluate:  20%|██        | 1/5 [00:04<00:19,  4.86s/it][A
-Evaluate:  40%|████      | 2/5 [00:08<00:11,  3.97s/it][A
-Evaluate:  60%|██████    | 3/5 [00:11<00:07,  3.59s/it][A
-Evaluate:  80%|████████  | 4/5 [00:14<00:03,  3.24s/it][A
-Evaluate: 100%|██████████| 5/5 [00:17<00:00,  3.21s/it][A                                                    
-                                                       [A{'eval_loss': 9.6e-07, 'eval_kl': 0.00097774, 'eval_reward': 1.5, 'eval_reward_std': 0.49497476, 'eval_frac_reward_zero_std': 0.34999999, 'eval_rewards/MathAccuracy/mean': 0.52499998, 'eval_rewards/MathAccuracy/std': 0.53112781, 'eval_rewards/Format/mean': 0.97500002, 'eval_rewards/Format/std': 0.07071067, 'eval_clip_ratio/low_mean': 0.0, 'eval_clip_ratio/high_mean': 0.0, 'eval_clip_ratio/region_mean': 0.0, 'eval_completions/mean_length': 112.44999695, 'eval_completions/max_length': 161.8999939, 'eval_completions/min_length': 74.69999695, 'eval_clip_ratio/low_min': 0.0, 'eval_clip_ratio/high_max': 0.0, 'iteration': '5/5', 'elapsed_time': '1m 26s', 'remaining_time': '0s', 'memory(GiB)': 21.22, 'train_speed(s/it)': 17.202752}
-Train: 100%|██████████| 5/5 [01:26<00:00, 11.42s/it]
-Evaluate: 100%|██████████| 5/5 [00:17<00:00,  3.21s/it][AEvaluate: 100%|██████████| 5/5 [00:17<00:00,  3.44s/it]
-/data/ljy23/swift-rl/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
-  return func(*args, **kwargs)
-[INFO:swift] Successfully saved Megatron model weights in `/data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822/checkpoint-5`.
-Saving:   0%|          | 0/36 [00:00<?, ?it/s]Saving:   3%|▎         | 1/36 [00:00<00:04,  7.62it/s]Saving:   6%|▌         | 2/36 [00:00<00:04,  8.08it/s]Saving:   8%|▊         | 3/36 [00:00<00:04,  7.87it/s]Saving:  11%|█         | 4/36 [00:00<00:04,  7.78it/s]Saving:  14%|█▍        | 5/36 [00:00<00:03,  7.76it/s]Saving:  17%|█▋        | 6/36 [00:00<00:03,  7.91it/s]Saving:  19%|█▉        | 7/36 [00:00<00:03,  7.95it/s]Saving:  22%|██▏       | 8/36 [00:01<00:03,  7.97it/s]Saving:  25%|██▌       | 9/36 [00:01<00:03,  8.06it/s]Saving:  28%|██▊       | 10/36 [00:01<00:03,  8.17it/s]Saving:  31%|███       | 11/36 [00:01<00:03,  6.97it/s]Saving:  33%|███▎      | 12/36 [00:01<00:03,  6.21it/s]Saving:  36%|███▌      | 13/36 [00:01<00:04,  5.69it/s]Saving:  39%|███▉      | 14/36 [00:02<00:04,  5.34it/s]Saving:  42%|████▏     | 15/36 [00:02<00:04,  5.22it/s]Saving:  44%|████▍     | 16/36 [00:02<00:03,  5.74it/s]Saving:  47%|████▋     | 17/36 [00:02<00:02,  6.46it/s]Saving:  50%|█████     | 18/36 [00:02<00:02,  7.00it/s]Saving:  53%|█████▎    | 19/36 [00:02<00:02,  7.52it/s]Saving:  56%|█████▌    | 20/36 [00:02<00:02,  7.77it/s]Saving:  58%|█████▊    | 21/36 [00:05<00:13,  1.13it/s]Saving:  67%|██████▋   | 24/36 [00:05<00:04,  2.46it/s]Saving:  78%|███████▊  | 28/36 [00:05<00:01,  4.76it/s]Saving:  83%|████████▎ | 30/36 [00:05<00:01,  5.69it/s]Saving:  89%|████████▉ | 32/36 [00:06<00:00,  5.92it/s]Saving:  94%|█████████▍| 34/36 [00:06<00:00,  6.06it/s]Saving: 100%|██████████| 36/36 [00:06<00:00,  5.95it/s]Saving: 100%|██████████| 36/36 [00:06<00:00,  5.26it/s]
-[INFO:swift] Setting torch_dtype: torch.bfloat16
-[INFO:swift] model_kwargs: {'device_map': 'cuda:0', 'dtype': torch.bfloat16}
-[INFO:swift] Successfully saved `safetensors` model weights in `/data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822/checkpoint-5`.
-Train: 100%|██████████| 5/5 [01:38<00:00, 19.60s/it]
-[INFO:swift] last_model_checkpoint: /data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822/checkpoint-5
-[INFO:swift] best_model_checkpoint: /data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822/checkpoint-5
-Matplotlib is building the font cache; this may take a moment.
-[INFO:swift] End time of running main: 2026-09-11 14:01:37.280727
-swanlab: 🌟 Run `swanlab watch 
-/data/ljy23/swift-rl/output/megatron_grpo_clevr_3b/v3-20260911-135822/swanlab` 
-to view SwanLab Experiment Dashboard

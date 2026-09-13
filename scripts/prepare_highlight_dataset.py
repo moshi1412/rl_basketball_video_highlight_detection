@@ -221,6 +221,13 @@ def cut(args, mapping):
             cands = build_candidates(view_name(vf), vf, segs, args.window, args.stride, dur)
             pos = [c for c in cands if c.positive]
             neg = [c for c in cands if not c.positive]
+
+            # 难负例：优先取“离高光很近但不是高光”的窗口（随机负例多是远景空场，太容易）
+            if args.neg_mode == 'adjacent':
+                def near(c, _segs=segs):
+                    return min(abs(c.start - s['start']) for s in _segs) if _segs else 1e9
+                neg = sorted(neg, key=near)
+
             if args.limit:
                 pos = pos[:args.limit]
             n_neg = min(len(neg), len(pos) * neg_per_pos)
@@ -268,6 +275,8 @@ def main():
     ap.add_argument('--frames', type=int, default=8, help='每个片段抽几帧给 VLM')
     ap.add_argument('--width', type=int, default=448)
     ap.add_argument('--neg-ratio', type=int, default=1, help='每个正例配几个负例')
+    ap.add_argument('--neg-mode', choices=['random', 'adjacent'], default='random',
+                    help='adjacent=优先取时间上靠近高光的难负例（推荐）')
     ap.add_argument('--limit', type=int, default=0, help='每个视频最多取多少正例(0=全部)')
     ap.add_argument('--out-dir', default='data/highlight')
     ap.add_argument('--seed', type=int, default=42)

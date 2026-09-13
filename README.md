@@ -26,6 +26,7 @@ docs/
   highlight_clip_rl_design.md  # 高光剪辑 reward 设计与训练方案（含数据盘点）
   grpo_clevr_reward_curve.png  # 训练曲线图
 results/clevr_grpo_3b/         # 本次任务的完整结果包（指标/抽样/VLM 回答/demo 视频）
+results/geoqa_grpo_3b/         # 换难任务(GEOQA)+调超参+7卡训练的完整结果包（accuracy 24%→32%）
 ```
 
 > 上传仓库时不需要（也已被 `.gitignore` 排除）：`.venv/`、`.cache/`（模型与数据集缓存）、

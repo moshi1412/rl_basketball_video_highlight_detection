@@ -156,6 +156,25 @@ class HighlightReason(_Base):
         return rewards
 
 
+class HighlightEvidence(_Base):
+    """理由里是否提到“可观测事实”（投篮/上篮/防守/篮板/抢断…）。
+
+    与 HighlightReason 的区别：不看标注措辞，只看模型有没有说出画面里能看到的攻防要素，
+    因此对模型是**可学**的（上一次实验里 HighlightReason 一直卡在 0.1~0.2 就是因为它要求
+    复述标注原文）。负例里说“这球被防住了/没进/只是运球”同样算证据。
+    """
+
+    def __call__(self, completions, solution=None, **kwargs) -> List[float]:
+        rewards = []
+        for content in completions:
+            kw = _keywords(content)
+            if not kw:
+                rewards.append(0.0)
+                continue
+            rewards.append(min(1.0, 0.4 + 0.2 * len(kw)))
+        return rewards
+
+
 class HighlightTemporal(_Base):
     """列表式主 reward：与标注区间的匹配 F1，tIoU 0.3 起给分、0.5 满分。"""
 
@@ -224,5 +243,6 @@ class HighlightLength(_Base):
 orms['highlight_format'] = HighlightFormat
 orms['highlight_label'] = HighlightLabel
 orms['highlight_reason'] = HighlightReason
+orms['highlight_evidence'] = HighlightEvidence
 orms['highlight_temporal'] = HighlightTemporal
 orms['highlight_length'] = HighlightLength

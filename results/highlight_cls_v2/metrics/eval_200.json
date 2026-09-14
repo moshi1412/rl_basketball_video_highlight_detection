@@ -1,0 +1,32 @@
+{
+  "base": {
+    "n": 200,
+    "accuracy": 0.5,
+    "balanced_accuracy": 0.5,
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1": 0.6667,
+    "format": 0.0,
+    "pred_positive": 200
+  },
+  "SFT": {
+    "n": 200,
+    "accuracy": 0.5,
+    "balanced_accuracy": 0.5,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "format": 1.0,
+    "pred_positive": 0
+  },
+  "GRPO": {
+    "n": 200,
+    "accuracy": 0.5,
+    "balanced_accuracy": 0.5,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "format": 1.0,
+    "pred_positive": 0
+  }
+}

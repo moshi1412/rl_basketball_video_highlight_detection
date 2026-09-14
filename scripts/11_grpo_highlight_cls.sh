@@ -12,10 +12,12 @@ source "$(dirname "$0")/../env.sh"
 export CUDA_VISIBLE_DEVICES=${TRAIN_GPUS:-2,3,4,5,6,7,8}
 export NPROC_PER_NODE=$(awk -F',' '{print NF}' <<< "$CUDA_VISIBLE_DEVICES")
 export MPLCONFIGDIR=${MPLCONFIGDIR:-/tmp/mplconfig}
-DATA=${DATA_DIR:-$SWIFT_RL_ROOT/data/highlight_cls}
+DATA=${DATA_DIR:-$SWIFT_RL_ROOT/data/highlight_cls_v2}
 MAX_STEPS=${MAX_STEPS:-30}
 NUM_GEN=${NUM_GEN:-4}
 PER_DEVICE=$NUM_GEN          # swift 要求 per_device_train_batch_size 能被 num_generations 整除
+TEMPERATURE=${TEMPERATURE:-1.0}
+EVAL_STRATEGY=${EVAL_STRATEGY:-steps}   # 设成 no 就跳过内置验证（自己用 infer 测更快）
 
 TRAIN=()
 VAL=()
@@ -27,19 +29,40 @@ for f in "$DATA"/*.jsonl; do
 done
 echo "[grpo-highlight] train=${#TRAIN[@]} val=${#VAL[@]} GPUs=$CUDA_VISIBLE_DEVICES num_gen=$NUM_GEN steps=$MAX_STEPS"
 
+# 想从 SFT 的 LoRA 权重继续 RL（playbook 推荐的"SFT 打底再 GRPO"），传 ADAPTER=<sft checkpoint>
+ADAPTER_ARGS=""
+if [ -n "${ADAPTER:-}" ]; then
+  ADAPTER_ARGS="--adapters $ADAPTER"
+  echo "[grpo-highlight] 从 SFT adapter 继续: $ADAPTER"
+fi
+
+# tuner：默认 LoRA；若 TUNER_TYPE=full（配合 MODEL=合并后的模型）则走全参微调
+TUNER=${TUNER_TYPE:-lora}
+if [ "$TUNER" = "lora" ]; then
+  LORA_ARGS="--lora_rank ${LORA_RANK:-8} --lora_alpha 32 --target_modules all-linear --vllm_enable_lora true --vllm_max_lora_rank ${LORA_RANK:-8}"
+else
+  LORA_ARGS=""
+fi
+
+# 注意：reward 名字必须作为**多个参数**传给 swift，写成 "${VAR}" 会被当成一个字符串
+read -r -a REWARD_FUNCS_ARR <<< "${REWARD_FUNCS:-highlight_format highlight_label_balanced highlight_evidence}"
+read -r -a REWARD_WEIGHTS_ARR <<< "${REWARD_WEIGHTS:-0.2 1.0 0.3}"
+echo "[grpo-highlight] rewards: ${REWARD_FUNCS_ARR[*]} | weights: ${REWARD_WEIGHTS_ARR[*]}"
+echo "[grpo-highlight] tuner=$TUNER model=${MODEL:-$SWIFT_RL_MODEL}"
+
 exec swift rlhf --rlhf_type grpo \
-  --model "$SWIFT_RL_MODEL" \
-  --tuner_type "${TUNER_TYPE:-lora}" \
-  --lora_rank "${LORA_RANK:-8}" --lora_alpha 32 --target_modules all-linear \
+  --model "${MODEL:-$SWIFT_RL_MODEL}" \
+  $ADAPTER_ARGS \
+  --tuner_type "$TUNER" \
+  $LORA_ARGS \
   --freeze_vit true --freeze_aligner true \
-  --vllm_enable_lora true --vllm_max_lora_rank "${LORA_RANK:-8}" \
   --torch_dtype bfloat16 \
   --dataset "${TRAIN[@]}" \
   --val_dataset "${VAL[@]}" \
   --load_from_cache_file true \
   --external_plugins "$SWIFT_RL_ROOT/scripts/highlight_reward_plugin.py" \
-  --reward_funcs highlight_format highlight_label highlight_evidence \
-  --reward_weights 0.2 1.0 0.3 \
+  --reward_funcs "${REWARD_FUNCS_ARR[@]}" \
+  --reward_weights "${REWARD_WEIGHTS_ARR[@]}" \
   --use_vllm true \
   --vllm_mode server \
   --vllm_server_host 127.0.0.1 \
@@ -53,7 +76,7 @@ exec swift rlhf --rlhf_type grpo \
   --per_device_eval_batch_size "$PER_DEVICE" \
   --gradient_accumulation_steps 1 \
   --num_generations "$NUM_GEN" \
-  --temperature 1.0 \
+  --temperature "$TEMPERATURE" \
   --learning_rate 1e-6 \
   --beta 0.01 \
   --max_grad_norm 0.5 \
@@ -61,7 +84,7 @@ exec swift rlhf --rlhf_type grpo \
   --deepspeed zero3 \
   --logging_steps 1 \
   --save_strategy steps --save_steps "$MAX_STEPS" --save_total_limit 2 \
-  --eval_strategy steps --eval_steps "$MAX_STEPS" \
+  --eval_strategy "$EVAL_STRATEGY" --eval_steps "$MAX_STEPS" \
   --dataset_num_proc 4 --dataloader_num_workers 2 \
   --log_completions true \
   --report_to swanlab --swanlab_mode local --swanlab_project highlight-cls-grpo \

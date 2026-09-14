@@ -21,6 +21,7 @@
 3. reward 都做了平滑（0~1 连续），避免 GRPO 组内全 0 导致无梯度。
 """
 import json
+import os
 import re
 from typing import Any, Dict, List
 
@@ -175,6 +176,97 @@ class HighlightEvidence(_Base):
         return rewards
 
 
+class HighlightLabelBalanced(_Base):
+    """分类主奖励（playbook 推荐的"平衡 + 反退化"版本）。
+
+    * 每题判对得 1.0；判对且理由里出现了标注事件词再 +0.2（归一化到 1.0）
+    * **反退化惩罚**：如果整批 completion 的预测几乎全是 yes（>90%）或全是 no（<10%），
+      说明策略退化成"恒答同一个标签"（前面实验里 base 恒 yes、SFT 恒 no），
+      整批奖励统一扣 0.3，让"会区分的策略"严格优于"恒答策略"。
+    """
+
+    def __init__(self, args=None, degenerate_penalty: float = 0.3, **kwargs):
+        super().__init__(args, **kwargs)
+        self.degenerate_penalty = degenerate_penalty
+
+    def __call__(self, completions, solution=None, **kwargs) -> List[float]:
+        rewards, preds = [], []
+        for content, sol in self._pairs(completions, solution):
+            gt = _parse_solution(sol)
+            payload = (_parse_answer(content) or '').lower()
+            pred = payload.startswith('yes')
+            preds.append(pred)
+            if 'is_highlight' not in gt:
+                rewards.append(0.0)
+                continue
+            r = 1.0 if pred == bool(gt['is_highlight']) else 0.0
+            if r > 0 and gt.get('description') and (_keywords(content) & _keywords(gt['description'])):
+                r += 0.2
+            rewards.append(min(r, 1.2) / 1.2)
+        if preds:
+            pos_rate = sum(preds) / len(preds)
+            if pos_rate > 0.9 or pos_rate < 0.1:
+                rewards = [max(0.0, r - self.degenerate_penalty) for r in rewards]
+        return rewards
+
+
+def _group_labels(preds, group_size):
+    """把整批预测按 group_size 切组（GRPO 里同一 prompt 的 num_generations 条是连续的）。"""
+    return [preds[i:i + group_size] for i in range(0, len(preds), group_size)]
+
+
+class HighlightLabelFocused(_Base):
+    """只看判断的奖励（配合「答案前置」数据）：
+
+    * 判对 = 1.0（负例）/ yes_weight（正例，默认 2.0），判错 = 0
+      —— yes_weight 取"正负样本比例的反比"（数据是 1:2 就取 2.0），
+      这样"恒答 no"的期望奖励不再占优：E = (1/3)·w·p + (2/3)·(1-p)，
+      w=2 时与 p 无关，先验导致的坍缩压力被消掉，梯度只来自"能不能区分"。
+    * 解析不出答案 = 0
+    * **探索奖励**：如果同组里你是少数派（跟多数回答不同），额外 +bonus；
+      上限 = max(yes_weight, 1) + bonus（**不封在 1.0**，否则"敢于不同"的加分会被上限吃掉）。
+    """
+
+    def __init__(self, args=None, bonus: float = 0.3, yes_weight: float = None, **kwargs):
+        super().__init__(args, **kwargs)
+        self.bonus = float(os.getenv('EXPLORE_BONUS', bonus))
+        self.yes_weight = float(yes_weight if yes_weight is not None else os.getenv('YES_WEIGHT', '2.0'))
+        self.cap = max(self.yes_weight, 1.0) + self.bonus
+        self.group_size = int(os.getenv('GRPO_NUM_GENERATIONS', '4'))
+
+    def __call__(self, completions, solution=None, **kwargs) -> List[float]:
+        rewards, preds = [], []
+        for content, sol in self._pairs(completions, solution):
+            gt = _parse_solution(sol)
+            payload = (_parse_answer(content) or '').lower()
+            if payload.startswith('yes'):
+                pred = True
+            elif payload.startswith('no'):
+                pred = False
+            else:
+                pred = None
+            preds.append(pred)
+            if pred is None:
+                rewards.append(0.0)
+            elif pred == bool(gt.get('is_highlight', False)):
+                rewards.append(self.yes_weight if pred else 1.0)
+            else:
+                rewards.append(0.0)
+
+        # 探索奖励：组内"少数派"加分（逐样本，能给退化策略制造组内方差）
+        if self.bonus > 0 and preds:
+            for gi, g in enumerate(_group_labels(preds, self.group_size)):
+                known = [p for p in g if p is not None]
+                if not known:
+                    continue
+                majority_yes = sum(known) * 2 > len(known)
+                for j, p in enumerate(g):
+                    if p is not None and p != majority_yes:
+                        k = gi * self.group_size + j
+                        rewards[k] = min(self.cap, rewards[k] + self.bonus)
+        return rewards
+
+
 class HighlightTemporal(_Base):
     """列表式主 reward：与标注区间的匹配 F1，tIoU 0.3 起给分、0.5 满分。"""
 
@@ -242,6 +334,8 @@ class HighlightLength(_Base):
 
 orms['highlight_format'] = HighlightFormat
 orms['highlight_label'] = HighlightLabel
+orms['highlight_label_balanced'] = HighlightLabelBalanced
+orms['highlight_label_focused'] = HighlightLabelFocused
 orms['highlight_reason'] = HighlightReason
 orms['highlight_evidence'] = HighlightEvidence
 orms['highlight_temporal'] = HighlightTemporal

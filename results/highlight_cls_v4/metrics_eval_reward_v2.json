@@ -1,0 +1,32 @@
+{
+  "SFT v4（起点）": {
+    "n": 200,
+    "accuracy": 0.565,
+    "balanced_accuracy": 0.565,
+    "precision": 0.7826,
+    "recall": 0.18,
+    "f1": 0.2927,
+    "format": 1.0,
+    "pred_positive": 23
+  },
+  "GRPO 旧奖励": {
+    "n": 200,
+    "accuracy": 0.5,
+    "balanced_accuracy": 0.5,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "format": 1.0,
+    "pred_positive": 0
+  },
+  "GRPO 新奖励": {
+    "n": 200,
+    "accuracy": 0.5,
+    "balanced_accuracy": 0.5,
+    "precision": 0.5,
+    "recall": 0.01,
+    "f1": 0.0196,
+    "format": 1.0,
+    "pred_positive": 2
+  }
+}
